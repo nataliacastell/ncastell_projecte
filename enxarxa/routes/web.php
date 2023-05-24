@@ -1,6 +1,9 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\UsuarioController;
+use App\Http\Controllers\PublicacionController;
+use App\Http\Controllers\FollowController;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,7 +19,6 @@ use Illuminate\Support\Facades\Route;
 ### ----------- Rutas Usuario ----------- ### 
 #############################################
 
-use App\Http\Controllers\UsuarioController;
 
 // Ruta para crear un nuevo usuario
 Route::post('/usuarios', [UsuarioController::class, 'create']);
@@ -41,7 +43,6 @@ Route::post('/usuarios/{id}/ban', [UsuarioController::class, 'ban']);
 #################################################
 ### ----------- Rutas Publicacion ----------- ### 
 #################################################
-use App\Http\Controllers\PublicacionController;
 
 // Ruta para crear una nueva publicación
 Route::post('/publicaciones', [PublicacionController::class, 'create']);
@@ -67,7 +68,6 @@ Route::get('/usuarios/{usuario_id}/publicaciones-seguidos', [PublicacionControll
 ### ----------- Rutas Follow ----------- ### 
 ############################################
 
-use App\Http\Controllers\FollowController;
 
 // Ruta para crear un nuevo follow
 Route::post('/follows', [FollowController::class, 'create']);
@@ -83,5 +83,8 @@ Route::get('/follows/{id}', [FollowController::class, 'getFollowData']);
 
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('layout.master');
+});
+Route::get('/index', function () {
+    return view('layout.index1');
 });
