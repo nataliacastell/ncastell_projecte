@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Usuario;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\dd;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
@@ -11,11 +12,15 @@ class UsuarioController extends Controller
 {
     private $usuario;
 
-    public function __construct($id)
-    {
-        // Buscar el usuario en la base de datos
+    public function __construct($id = null)
+{
+    // Check if an ID is provided
+    if ($id !== null) {
+        // Find the user in the database
         $this->usuario = Usuario::findOrFail($id);
     }
+}
+
 
     public function isAdmin()
     {
@@ -24,17 +29,16 @@ class UsuarioController extends Controller
 
     public function create(Request $request)
     {
-        // Comprobar si el usuario actual es un administrador
-        if (!$this->isAdmin()) {
-            // Redirigir a la página de inicio o mostrar un mensaje de error
-        }
-
         // Validar los datos de entrada
+        dd('Validating input data'); // Punto de control
+
         $request->validate([
             'nombre' => 'required',
             'correo_electronico' => 'required|email|unique:usuarios',
             'contrasena' => 'required',
         ]);
+
+        dd('Input data is valid'); // Punto de control
 
         // Crear un nuevo usuario
         $usuario = new Usuario();
@@ -43,8 +47,13 @@ class UsuarioController extends Controller
         $usuario->contrasena = Hash::make($request->input('contrasena'));
         $usuario->save();
 
-        // Redirigir a la lista de usuarios o mostrar un mensaje de éxito
+        dd('User created successfully'); // Punto de control
+
+        // Redirigir a la lista de usuarios con mensaje de éxito
+        return back()->with('success', 'Usuario creado exitosamente.');
     }
+
+
 
     public function read($id)
     {

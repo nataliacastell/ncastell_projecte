@@ -1,6 +1,8 @@
-<html>
+<!DOCTYPE html>
 <head>
-    <link href="/css/app.css" rel="stylesheet">
+<link href="/css/app.css" rel="stylesheet">
+<link href="/js/app.js" rel="javascript">
+
 </head>
 <body>
     @section('sidebar')

@@ -16,7 +16,7 @@ use App\Http\Controllers\FollowController;
 |
 */
 #############################################
-### ----------- Rutas Usuario ----------- ### 
+### ----------- Rutas Usuario ----------- ###
 #############################################
 
 
@@ -38,10 +38,13 @@ Route::get('/usuarios', [UsuarioController::class, 'index']);
 // Ruta para banear a un usuario específico
 Route::post('/usuarios/{id}/ban', [UsuarioController::class, 'ban']);
 
-
+//View crear usuario
+Route::get('/crear-usuario', function () {
+    return view('layout..crear');
+});
 
 #################################################
-### ----------- Rutas Publicacion ----------- ### 
+### ----------- Rutas Publicacion ----------- ###
 #################################################
 
 // Ruta para crear una nueva publicación
@@ -65,7 +68,7 @@ Route::get('/usuarios/{usuario_id}/publicaciones-seguidos', [PublicacionControll
 
 
 ############################################
-### ----------- Rutas Follow ----------- ### 
+### ----------- Rutas Follow ----------- ###
 ############################################
 
 
@@ -85,6 +88,6 @@ Route::get('/follows/{id}', [FollowController::class, 'getFollowData']);
 Route::get('/', function () {
     return view('layout.master');
 });
-Route::get('/index', function () {
-    return view('layout.index1');
+Route::get('/crear-usuario', function () {
+    return view('layout.usuarios.crear');
 });

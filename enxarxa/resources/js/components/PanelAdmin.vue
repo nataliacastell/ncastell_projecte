@@ -76,10 +76,17 @@
       this.obtenerUsuarios();
     },
     methods: {
-      obtenerUsuarios() {
-        // Lógica para obtener los usuarios desde el servidor
-        // ...
-      },
+        obtenerUsuarios() {
+      // Realizamos una petición AJAX para obtener los usuarios desde el servidor
+      axios.get('./app/models/Usuario.php')
+        .then(response => {
+          this.usuarios = response.data;
+          this.usuariosFiltrados = response.data; // Inicializamos los usuarios filtrados con la lista completa de usuarios
+        })
+        .catch(error => {
+          console.error('Error al obtener los usuarios:', error);
+        });
+    },
       agregarUsuario(usuario) {
         // Lógica para agregar el usuario a la lista
         // ...
