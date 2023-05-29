@@ -15,5 +15,9 @@ export default {
   plugins: [
     forms,
   ],
+  optimizeDeps: {
+    include: ['/resources/js/app.js'],
+  },
+
 };
 
