@@ -6,6 +6,7 @@
 </head>
 <body>
     @section('sidebar')
+    <!--sacar esto de aqui solo para ves si se aplica todo-->
     <div class="sidebar">
         <!-- Header -->
         <header class="py-4 px-6 bg-gray-900 flex items-center justify-between">
@@ -40,9 +41,9 @@
                     </li>
 
                     <!-- Post no Seguidos -->
-                    <li class="px-4 py-2 mx-2 p2">
+                    <li class="px-4 py-2 mx-2 my-2 m-1 ">
                         <a href="/post-no-seguidos" class="flex items-center text-gray-300 hover:text-white">
-                            <svg class="h-4 w-4 fill-current m-11" viewBox="0 0 20 20">
+                            <svg class="h-4 w-4 fill-current " viewBox="0 0 20 20">
                                 <path fill-rule="evenodd" d="M10 12a2 2 0 100-4 2 2 0 000 4z" />
                                 <path fill-rule="evenodd" d="M4 6a1 1 0 011-1h6.586l-1.293-1.293a1 1 0 010-1.414 1 1 0 011.414 0l3 3a1 1 0 010 1.414l-3 3a1 1 0 01-1.414-1.414L11.586 7H5a1 1 0 01-1-1z" clip-rule="evenodd" />
                             </svg>
