@@ -13,7 +13,6 @@ class UsuarioController extends Controller
 
     public function __construct()
     {
-        $this->middleware('web'); // Agregar el middleware web para verificar el token CSRF
         $this->middleware(function ($request, $next) {
             $this->usuario = Auth::user();
             return $next($request);

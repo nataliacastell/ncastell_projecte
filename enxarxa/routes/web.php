@@ -3,6 +3,7 @@
 use App\Http\Controllers\UsuarioController;
 use App\Http\Controllers\PublicacionController;
 use App\Http\Controllers\FollowController;
+use Illuminate\Support\Facades\Route;
 
 /*
 |--------------------------------------------------------------------------
@@ -21,6 +22,9 @@ Route::prefix('usuarios')->group(function () {
     Route::put('/{id}', [UsuarioController::class, 'update'])->name('usuarios.update');
     Route::delete('/{id}', [UsuarioController::class, 'delete'])->name('usuarios.delete');
     Route::post('/{id}/ban', [UsuarioController::class, 'ban'])->name('usuarios.ban');
+    //Route::get('/usuarios/lista', [UsuarioController::class, 'lista'])->name('usuarios.lista')->middleware('auth');
+    Route::get('/usuarios/lista', [UsuarioController::class, 'lista'])->name('usuarios.lista')->middleware('guest');
+
 });
 #################################################
 ### ----------- Rutas Publicacion ----------- ###
