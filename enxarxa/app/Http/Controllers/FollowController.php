@@ -12,17 +12,17 @@ class FollowController extends Controller
 {
     private $follow;
     private $usuarioController;
-    
-    public function __construct($publicacionId)
+
+    public function __construct()
     {
         // Buscar el follow en la base de datos
-        $follow = Follow::where('publicacion_id', $publicacionId)->first();
+        //$follow = Follow::where('publicacion_id', $publicacionId)->first();
 
         // Guardar los datos del follow en la variable
-        $this->follow = $follow;
+        //$this->follow = $follow;
 
         // Crear una instancia del controlador UsuarioController
-        $this->usuarioController = new UsuarioController(Auth::user()->id);
+        //$this->usuarioController = new UsuarioController(Auth::user()->id);
     }
 
     // Resto de los métodos del controlador Follow...
@@ -31,15 +31,15 @@ class FollowController extends Controller
     {
         // Verificar si el usuario actual es el autor del follow
         $follow = $this->follow;
-        $usuarioActual = Auth::user();
 
-        return $follow->usuario_id === $usuarioActual->id;
+
+        //return $follow->usuario_id === $usuarioActual->id;
     }
 
     private function isAdmin()
     {
         // Verificar si el usuario actual es un usuario admin
-        $usuarioActual = Auth::user();
+        //$usuarioActual = Auth::user();
 
         return $this->usuarioController->isAdmin();
     }
@@ -104,5 +104,5 @@ class FollowController extends Controller
         return $follow;
     }
 
-    
+
 }

@@ -1,6 +1,5 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UsuarioController;
 use App\Http\Controllers\PublicacionController;
 use App\Http\Controllers\FollowController;
@@ -9,85 +8,52 @@ use App\Http\Controllers\FollowController;
 |--------------------------------------------------------------------------
 | Web Routes
 |--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider and all of them will
-| be assigned to the "web" middleware group. Make something great!
-|
 */
 #############################################
 ### ----------- Rutas Usuario ----------- ###
 #############################################
 
 
-// Ruta para crear un nuevo usuario
-Route::post('/usuarios', [UsuarioController::class, 'create']);
-
-// Ruta para obtener la información de un usuario específico
-Route::get('/usuarios/{id}', [UsuarioController::class, 'read']);
-
-// Ruta para actualizar la información de un usuario específico
-Route::put('/usuarios/{id}', [UsuarioController::class, 'update']);
-
-// Ruta para eliminar un usuario específico
-Route::delete('/usuarios/{id}', [UsuarioController::class, 'delete']);
-
-// Ruta para obtener la lista de usuarios
-Route::get('/usuarios', [UsuarioController::class, 'index']);
-
-// Ruta para banear a un usuario específico
-Route::post('/usuarios/{id}/ban', [UsuarioController::class, 'ban']);
-
-//View crear usuario
-Route::get('/crear-usuario', function () {
-    return view('layout..crear');
+Route::prefix('usuarios')->group(function () {
+    Route::post('/', [UsuarioController::class, 'create'])->name('usuarios.create');
+    Route::get('/', [UsuarioController::class, 'index'])->name('usuarios.index');
+    Route::get('/{id}', [UsuarioController::class, 'read'])->name('usuarios.read');
+    Route::put('/{id}', [UsuarioController::class, 'update'])->name('usuarios.update');
+    Route::delete('/{id}', [UsuarioController::class, 'delete'])->name('usuarios.delete');
+    Route::post('/{id}/ban', [UsuarioController::class, 'ban'])->name('usuarios.ban');
 });
-
 #################################################
 ### ----------- Rutas Publicacion ----------- ###
 #################################################
 
-// Ruta para crear una nueva publicación
-Route::post('/publicaciones', [PublicacionController::class, 'create']);
-
-// Ruta para obtener la información de una publicación específica
-Route::get('/publicaciones/{id}', [PublicacionController::class, 'read']);
-
-// Ruta para actualizar la información de una publicación específica
-Route::put('/publicaciones/{id}', [PublicacionController::class, 'update']);
-
-// Ruta para eliminar una publicación específica
-Route::delete('/publicaciones/{id}', [PublicacionController::class, 'delete']);
-
-// Ruta para obtener la lista de publicaciones de un usuario específico
-Route::get('/usuarios/{usuario_id}/publicaciones', [PublicacionController::class, 'getUserPublicaciones']);
-
-// Ruta para obtener la lista de publicaciones de los usuarios seguidos por un usuario específico
-Route::get('/usuarios/{usuario_id}/publicaciones-seguidos', [PublicacionController::class, 'getFollowedUserPublicaciones']);
-
+Route::prefix('publicaciones')->group(function () {
+    Route::post('/', [PublicacionController::class, 'create'])->name('publicaciones.create');
+    Route::get('/{id}', [PublicacionController::class, 'read'])->name('publicaciones.read');
+    Route::put('/{id}', [PublicacionController::class, 'update'])->name('publicaciones.update');
+    Route::delete('/{id}', [PublicacionController::class, 'delete'])->name('publicaciones.delete');
+    Route::get('/usuarios/{usuario_id}', [PublicacionController::class, 'getUserPublicaciones'])->name('publicaciones.user');
+    Route::get('/usuarios/{usuario_id}/publicaciones-seguidos', [PublicacionController::class, 'getFollowedUserPublicaciones'])->name('publicaciones.followed');
+});
 
 
 ############################################
 ### ----------- Rutas Follow ----------- ###
 ############################################
 
-
-// Ruta para crear un nuevo follow
-Route::post('/follows', [FollowController::class, 'create']);
-
-// Ruta para actualizar un follow específico
-Route::put('/follows/{id}', [FollowController::class, 'update']);
-
-// Ruta para eliminar un follow específico
-Route::delete('/follows/{id}', [FollowController::class, 'delete']);
-
-// Ruta para obtener los datos de un follow específico
-Route::get('/follows/{id}', [FollowController::class, 'getFollowData']);
-
-
-Route::get('/', function () {
-    return view('layout.master');
+Route::prefix('follows')->group(function () {
+    Route::post('/', [FollowController::class, 'create'])->name('follows.create');
+    Route::put('/{id}', [FollowController::class, 'update'])->name('follows.update');
+    Route::delete('/{id}', [FollowController::class, 'delete'])->name('follows.delete');
+    Route::get('/{id}', [FollowController::class, 'getFollowData'])->name('follows.data');
 });
-Route::get('/crear-usuario', function () {
-    return view('layout.usuarios.crear');
-});
+
+// Ruta Login
+Route::get('/login', function () {
+    return view('layout.login');
+})->name('login');
+
+Route::post('/login', [UsuarioController::class, 'login'])->name('login.post');
+
+//  Rutes prova:
+Route::view('/crear-usuario', 'layout.usuarios.crear')->name('usuarios.create-view');
+Route::view('/', 'layout.master');

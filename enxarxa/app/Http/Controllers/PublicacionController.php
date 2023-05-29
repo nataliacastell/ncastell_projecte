@@ -11,13 +11,13 @@ class PublicacionController extends Controller
 {
     private $publicacion;
 
-    public function __construct($id)
+    public function __construct()
     {
         // Buscar la publicación en la base de datos
-        $publicacion = Publicacion::findOrFail($id);
+        //$publicacion = Publicacion::findOrFail($id);
 
         // Guardar los datos de la publicación en el objeto
-        $this->publicacion = $publicacion;
+        //$this->publicacion = $publicacion;
     }
 
     public function create(Request $request)
@@ -61,17 +61,17 @@ class PublicacionController extends Controller
         if (!$this->isAuthor() && Auth::user()->tipo !== 'admin') {
             return redirect()->route('inicio')->with('error', 'No tienes permiso para actualizar esta publicación.');
         }
-    
+
         // Resto del código de la función...
     }
-    
+
     public function delete($id)
     {
         // Comprobar si el usuario actual es el autor de la publicación o un usuario admin
         if (!$this->isAuthor() && Auth::user()->tipo !== 'admin') {
             return redirect()->route('inicio')->with('error', 'No tienes permiso para eliminar esta publicación.');
         }
-    
+
         // Resto del código de la función...
     }
 
@@ -98,7 +98,7 @@ class PublicacionController extends Controller
     {
         return Auth::user()->tipo === 'admin';
     }
-    
+
 
     private function isAuthor()
     {

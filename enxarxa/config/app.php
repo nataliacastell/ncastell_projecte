@@ -169,7 +169,9 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
         App\Providers\TelescopeServiceProvider::class,
-    ])->toArray(),
+        Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class,
+
+        ])->toArray(),
 
     /*
     |--------------------------------------------------------------------------
@@ -184,6 +186,8 @@ return [
 
     'aliases' => Facade::defaultAliases()->merge([
         // 'Example' => App\Facades\Example::class,
+        'IDEHelper' => Barryvdh\LaravelIdeHelper\IdeHelperFacade::class,
+
     ])->toArray(),
 
 ];

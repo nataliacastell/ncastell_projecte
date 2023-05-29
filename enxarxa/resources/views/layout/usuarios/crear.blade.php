@@ -44,20 +44,25 @@
   </div>
 
   <script>
+    // Función para abrir el modal
     function openModal() {
       document.getElementById('modal').style.display = 'block';
       document.getElementById('crearUsuarioBtn').style.display = 'none'; // Ocultar el botón al abrir el modal
     }
-
+    // Función para cerrar el modal
     function closeModal() {
       document.getElementById('modal').style.display = 'none';
       document.getElementById('crearUsuarioBtn').style.display = 'block'; // Mostrar el botón al cerrar el modal
     }
-
+    // Escuchamos el teclado
     function handleKeyDown(event) {
-      if (event.keyCode === 27) {
-        closeModal();
-      }
+        if (event.key === 'Escape') {
+            closeModal();
+            }
+        if (event.keyCode === 27) {
+            closeModal();
+        }
+
     }
 
     function submitForm(event) {
@@ -82,11 +87,10 @@
         contrasena,
         tipo
       };
-
-      // Enviar el formulario por AJAX al servidor
+      // LLamar a la funcion
       sendFormData(usuario);
     }
-
+    // Enviar al backend
     function sendFormData(usuario) {
       fetch('/usuarios', {
         method: 'POST',
@@ -95,6 +99,7 @@
         },
         body: JSON.stringify(usuario),
       })
+
         .then(response => response.json())
         .then(data => {
           if (data.success) {
@@ -113,6 +118,57 @@
   <style>
     /* Estilos para el componente */
     #modal {
-      /* Estilos del modal */
+      /* Estilos del modal con talwind que cumplan criterios AA*/
+        background-color: #fff;
+        border-radius: 0.5rem;
+        box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+        margin: 0 auto;
+        max-width: 32rem;
+        padding: 1rem;
+        position: relative;
+        width: 100%;
+        z-index: 100;
     }
+    #modal header {
+        align-items: center;
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 1rem;
+    }
+    #modal header h2 {
+        font-size: 1.25rem;
+        font-weight: 600;
+        margin: 0;
+    }
+    #modal header button {
+        background-color: transparent;
+        border: 0;
+        cursor: pointer;
+        height: 2rem;
+        padding: 0.5rem;
+        width: 2rem;
+    }
+    #modal header button::before {
+        border: 0.25rem solid #333;
+        border-radius: 0.25rem;
+        content: '';
+        display: block;
+        height: 1rem;
+        transform: rotate(45deg);
+        width: 1rem;
+    }
+    #modal form {
+        margin: 0;
+    }
+    #modal form div {
+        margin-bottom: 1rem;
+    }
+    #modal form div label {
+        display: block;
+        font-size: 0.875rem;
+        font-weight: 600;
+        margin-bottom: 0.25rem;
+    }
+    #modal form div input,
+
   </style>
