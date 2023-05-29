@@ -2,7 +2,7 @@
 export default {
   content: [
     './resources/views/**/*.blade.php',
-    ["./src/**/*.{html,js}"],
+    "./src/**/*.{html,js}",
   ],
   theme: {
     extend: {
