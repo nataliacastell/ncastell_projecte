@@ -24,10 +24,8 @@ class PublicacionFactory extends Factory
         return [
             'usuario_id' => $this->faker->numberBetween(1, 100), // Ajusta los límites según tus necesidades
             'texto' => $this->faker->text,
-            'imagen' => $this->faker->imageUrl(),
+            'imagen' => $this->faker->imageUrl(640, 480), // Ajusta el tamaño de la imagen generada
             'likes' => $this->faker->numberBetween(0, 100),
-            'fecha_creacion' => $this->faker->dateTime,
-            'fecha_modificacion' => $this->faker->optional()->dateTime,
             'eliminado' => $this->faker->boolean(10) // 10% de probabilidad de estar eliminado
         ];
     }

@@ -152,4 +152,13 @@ class UsuarioController extends Controller
         // Redirigir a la página de inicio o mostrar un mensaje de éxito
         return redirect()->back()->with('success', 'El usuario ha sido baneado correctamente.');
     }
+
+    public function lista()
+    {
+        // Obtener la lista de usuarios
+        $usuarios = Usuario::all();
+
+        // Mostrar la lista de usuarios
+        return view('usuarios.lista', compact('usuarios'));
+    }
 }

@@ -22,9 +22,7 @@ Route::prefix('usuarios')->group(function () {
     Route::put('/{id}', [UsuarioController::class, 'update'])->name('usuarios.update');
     Route::delete('/{id}', [UsuarioController::class, 'delete'])->name('usuarios.delete');
     Route::post('/{id}/ban', [UsuarioController::class, 'ban'])->name('usuarios.ban');
-    //Route::get('/usuarios/lista', [UsuarioController::class, 'lista'])->name('usuarios.lista')->middleware('auth');
-    Route::get('/usuarios/lista', [UsuarioController::class, 'lista'])->name('usuarios.lista')->middleware('guest');
-
+    Route::get('/lista', [UsuarioController::class, 'lista'])->name('usuarios.lista');
 });
 #################################################
 ### ----------- Rutas Publicacion ----------- ###
@@ -58,6 +56,6 @@ Route::get('/login', function () {
 
 Route::post('/login', [UsuarioController::class, 'login'])->name('login.post');
 
-//  Rutes prova:
+// Rutas de prueba:
 Route::view('/crear-usuario', 'layout.usuarios.crear')->name('usuarios.create-view');
-Route::view('/', 'layout.master');
+Route::view('/', 'layout.master')->name('home');
