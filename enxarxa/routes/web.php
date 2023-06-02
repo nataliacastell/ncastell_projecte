@@ -59,3 +59,17 @@ Route::post('/login', [UsuarioController::class, 'login'])->name('login.post');
 // Rutas de prueba:
 Route::view('/crear-usuario', 'layout.usuarios.crear')->name('usuarios.create-view');
 Route::view('/', 'layout.master')->name('home');
+
+//ruta prueva lista publicaciones SEGUIDOS:
+Route::middleware('guest')->get('/usuarios-seguidos-guest', [UsuarioController::class, 'obtenerPublicacionesSeguidos'])
+    ->name('usuariosSeguidosGuest');
+
+Route::middleware('auth')->get('/usuarios-seguidos', [UsuarioController::class, 'obtenerPublicacionesSeguidos'])
+    ->name('usuariosSeguidos');
+
+//ruta prueva lista publicaciones NO SEGUIDOS:
+Route::middleware('guest')->get('/usuarios-no-seguidos-guest', [UsuarioController::class, 'obtenerPublicacionesNoSeguidos'])
+    ->name('usuariosNoSeguidosGuest');
+
+Route::middleware('auth')->get('/usuarios-no-seguidos', [UsuarioController::class, 'obtenerPublicacionesNoSeguidos'])
+    ->name('usuariosNoSeguidos');

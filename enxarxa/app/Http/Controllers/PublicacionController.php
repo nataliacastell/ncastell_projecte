@@ -49,7 +49,7 @@ class PublicacionController extends Controller
         if ($publicacion) {
             return view('publicacion.read', ['publicacion' => $publicacion]);
         } else {
-            return redirect()->route('error')->with('error', 'La publicación no existe.');
+            //return redirect()->route('error')->with('error', 'La publicación no existe.');
         }
     }
 
