@@ -21,9 +21,6 @@ class UsuarioSeeder extends Seeder
             'correo_electronico' => 'admin@admin.com',
             'contrasena' => Hash::make('Admin'),
             'tipo_usuario' => 'Admin',
-            'fecha_creacion' => now(),
-            'fecha_modificacion' => now(),
-            'eliminado' => false,
         ]);
 
         Usuario::factory()->count(20)->create();

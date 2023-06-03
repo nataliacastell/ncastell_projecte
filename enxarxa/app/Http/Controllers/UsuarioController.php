@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Publicacion;
 use App\Models\Usuario;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\File;
 
 class UsuarioController extends Controller
 {
@@ -30,11 +32,14 @@ class UsuarioController extends Controller
         $credentials = $request->only('email', 'password');
 
         if (Auth::attempt($credentials)) {
-            // Autenticación exitosa, redirigir al usuario a una ruta específica
-            return redirect()->route('dashboard');
+            // Autenticación exitosa, redirigir al usuario a sus post
+            return redirect()->route('usuariosSeguidos');
         } else {
             // Autenticación fallida, redirigir al usuario de vuelta al formulario de inicio de sesión con un mensaje de error
-            return redirect()->back()->with('error', 'Credenciales inválidas');
+            //return redirect()->back()->with('error', 'Credenciales inválidas');
+            /** Prueva luego quitar */
+            return redirect()->route('usuariosSeguidosGuest');
+
         }
     }
 
@@ -61,7 +66,7 @@ class UsuarioController extends Controller
         $usuario->save();
 
         // Redirigir a la lista de usuarios con mensaje de éxito
-        return redirect()->route('usuario.index')->with('success', 'Usuario creado exitosamente.');
+        return redirect()->route('')->with('success', 'Usuario creado exitosamente.');
     }
 
     public function read($id)
@@ -152,4 +157,114 @@ class UsuarioController extends Controller
         // Redirigir a la página de inicio o mostrar un mensaje de éxito
         return redirect()->back()->with('success', 'El usuario ha sido baneado correctamente.');
     }
+
+    public function lista()
+    {
+        // Obtener la lista de usuarios
+        $usuarios = Usuario::all();
+
+        // Mostrar la lista de usuarios
+        return view('usuarios.lista', compact('usuarios'));
+    }
+
+
+
+
+
+
+
+    public function obtenerPublicacionesSeguidos()
+    {
+        // Obtener los IDs de los usuarios seguidos por el usuario actual
+        $usuariosSeguidos = $this->usuario->seguidos->pluck('id');
+
+        try {
+            // Obtener las publicaciones de los usuarios seguidos, ordenadas por la más reciente
+            $publicaciones = Publicacion::whereIn('usuario_id', $usuariosSeguidos)
+                ->orderByDesc('created_at')
+                ->get();
+
+            // Verificar si no hay publicaciones encontradas
+            if ($publicaciones->isEmpty()) {
+                throw new \Exception('No se encontraron publicaciones seguidas');
+            }
+
+            // Crear un array con los datos de las publicaciones y los usuarios que las han realizado
+            $publicacionesSeguidos = [];
+
+            foreach ($publicaciones as $publicacion) {
+                $publicacionSeguida = [
+                    'usuario' => [
+                        'id' => $publicacion->usuario->id,
+                        'nombre' => $publicacion->usuario->nombre,
+                    ],
+                    'publicacion' => [
+                        'id' => $publicacion->id,
+                        'texto' => $publicacion->texto,
+                        'imagen' => $publicacion->imagen,
+                        'altText' => $publicacion->altText,
+                        'likes' => $publicacion->likes,
+                    ],
+                ];
+
+                $publicacionesSeguidos[] = $publicacionSeguida;
+            }
+
+            // Devolver el array de publicaciones seguidas como respuesta
+            return response()->json($publicacionesSeguidos);
+        } catch (\Exception $e) {
+            // Ocurrió un error o no se encontraron registros, mostrar los datos del archivo JSON de relleno
+            $fakeData = File::get(storage_path('app/json/publicaciones_seguidos_fake.json'));
+            return response()->json(json_decode($fakeData));
+        }
+    }
+
+
+
+
+public function obtenerPublicacionesNoSeguidos()
+{
+    // Obtener los IDs de los usuarios seguidos por el usuario actual
+    $usuariosSeguidos = $this->usuario->seguidos->pluck('id');
+
+    try {
+        // Obtener las publicaciones de los usuarios no seguidos, ordenadas por la más reciente
+        $publicaciones = Publicacion::whereNotIn('usuario_id', $usuariosSeguidos)
+            ->orderByDesc('created_at')
+            ->get();
+
+        // Verificar si no hay publicaciones encontradas
+        if ($publicaciones->isEmpty()) {
+            throw new \Exception('No se encontraron publicaciones de usuarios no seguidos');
+        }
+
+        // Crear un array con los datos de las publicaciones y los usuarios que las han realizado
+        $publicacionesNoSeguidos = [];
+
+        foreach ($publicaciones as $publicacion) {
+            $publicacionNoSeguida = [
+                'usuario' => [
+                    'id' => $publicacion->usuario->id,
+                    'nombre' => $publicacion->usuario->nombre,
+                ],
+                'publicacion' => [
+                    'id' => $publicacion->id,
+                    'texto' => $publicacion->texto,
+                    'imagen' => $publicacion->imagen,
+                    'altText' => $publicacion->altText,
+                    'likes' => $publicacion->likes,
+                ],
+            ];
+
+            $publicacionesNoSeguidos[] = $publicacionNoSeguida;
+        }
+
+        // Devolver el array de publicaciones de usuarios no seguidos como respuesta
+        return response()->json($publicacionesNoSeguidos);
+    } catch (\Exception $e) {
+        // Ocurrió un error o no se encontraron registros, mostrar los datos del archivo JSON de relleno
+        $fakeData = File::get(storage_path('app/json/publicaciones_no_seguidos_fake.json'));
+        return response()->json(json_decode($fakeData));
+    }
+}
 }

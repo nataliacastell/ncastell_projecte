@@ -16,7 +16,7 @@ class CreateUsuariosTable extends Migration
         Schema::dropIfExists('usuarios'); // Eliminar la tabla si existe
 
         Schema::create('usuarios', function (Blueprint $table) {
-            $table->id();
+            $table->id()->unsigned();
             $table->string('nombre', 50);
             $table->string('correo_electronico', 255);
             $table->string('contrasena', 255);
