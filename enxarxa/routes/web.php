@@ -27,6 +27,8 @@ Route::post('/logout', [UsuarioController::class, 'logout'])->name('logout');
 // Rutas Usuario
 Route::get('/usuarios/lista', [UsuarioController::class, 'lista'])->name('usuarios.lista');
 Route::get('/lista', [UsuarioController::class, 'lista'])->name('lista');
+Route::get('/usuarios/lista', [UsuarioController::class, 'lista'])->name('usuarios.lista');
+
 
 // Rutas Publicacion
 

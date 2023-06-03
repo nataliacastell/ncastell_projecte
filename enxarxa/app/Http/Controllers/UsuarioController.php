@@ -53,11 +53,62 @@ class UsuarioController extends Controller
 
 
 
+
     public function logout()
     {
         Auth::logout();
         return redirect()->route('login');
     }
+
+
+     public function lista(Request $request)
+     {
+         $usuarioActual = Usuario::find(session('usuario_id'));
+         $searchQuery = $request->query('search');
+         $sortColumn = $request->query('sort', 'nombre_asc');
+
+         $usuarios = Usuario::query();
+
+         // Aplicar el filtro de búsqueda si se proporciona un término de búsqueda
+         if ($searchQuery) {
+             $usuarios->where('nombre', 'LIKE', '%' . $searchQuery . '%')
+                     ->orWhere('correo_electronico', 'LIKE', '%' . $searchQuery . '%');
+         }
+
+         // Aplicar el ordenamiento según la columna seleccionada
+         if ($sortColumn === 'nombre_asc') {
+             $usuarios->orderBy('nombre', 'asc');
+         } elseif ($sortColumn === 'nombre_desc') {
+             $usuarios->orderBy('nombre', 'desc');
+         } elseif ($sortColumn === 'correo_asc') {
+             $usuarios->orderBy('correo_electronico', 'asc');
+         } elseif ($sortColumn === 'correo_desc') {
+             $usuarios->orderBy('correo_electronico', 'desc');
+         }
+
+         $usuarios = $usuarios->get();
+
+
+         if ($usuarioActual && $usuarioActual->tipo_usuario === 'Admin') {
+            // Usuario es un administrador, redirigir a la vista de administrador y enviar los datos en formato json
+            return view('layout.usuarios.listaAdmin')->with('usuarios', json_encode($usuarios));
+        } else {
+            // Usuario es un usuario estándar, redirigir a la vista de usuario estándar
+            return view('layout.usuarios.lista')->with('usuarios', json_encode($usuarios));
+        }
+     }
+
+
+
+
+
+
+
+
+
+
+
+    ////////////////////////
 
     public function isAdmin()
     {
@@ -174,14 +225,6 @@ class UsuarioController extends Controller
         return redirect()->back()->with('success', 'El usuario ha sido baneado correctamente.');
     }
 
-    public function lista()
-    {
-        // Obtener la lista de usuarios
-        $usuarios = Usuario::all();
-
-        // Mostrar la lista de usuarios
-        return view('layout.usuarios.lista', compact('usuarios'));
-     }
 
 
 

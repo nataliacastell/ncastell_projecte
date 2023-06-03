@@ -12,7 +12,7 @@
         <header class="py-4 px-6 bg-gray-900 flex items-center justify-between">
             <!-- Logo -->
             <div class="flex items-center">
-                <img src="/path/to/logo.png" alt="Logo" class="h-8 w-8">
+                <img src="{{ url('img/logo.png') }}"  alt="Logo" class="h-8 w-8">
                 <span class="text-white ml-2 text-lg font-semibold">My App</span>
             </div>
 
