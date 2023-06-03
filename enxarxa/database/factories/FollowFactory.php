@@ -22,11 +22,8 @@ class FollowFactory extends Factory
     public function definition()
     {
         return [
-            'usuario1_id' => $this->faker->numberBetween(1, 100), // Ajusta los límites según tus necesidades
-            'usuario2_id' => $this->faker->numberBetween(1, 100), // Ajusta los límites según tus necesidades
-            'fecha_creacion' => $this->faker->dateTime,
-            'fecha_modificacion' => $this->faker->optional()->dateTime,
-            'eliminado' => $this->faker->boolean(10) // 10% de probabilidad de estar eliminado
+            'follower_id' => $this->faker->numberBetween(1, 10), // Ajusta los límites según tus necesidades
+            'following_id' => $this->faker->numberBetween(1, 10), // Ajusta los límites según tus necesidades
         ];
     }
 }

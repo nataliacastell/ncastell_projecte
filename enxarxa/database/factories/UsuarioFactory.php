@@ -26,10 +26,7 @@ class UsuarioFactory extends Factory
             'nombre' => $this->faker->name,
             'correo_electronico' => $this->faker->unique()->safeEmail,
             'contrasena' => bcrypt('password'), // Puedes cambiar 'password' por la contraseña deseada para los usuarios generados
-            'tipo_usuario' => $this->faker->randomElement(['Admin', 'Standard']),
-            'fecha_creacion' => $this->faker->dateTime,
-            'fecha_modificacion' => $this->faker->optional()->dateTime,
-            'eliminado' => $this->faker->boolean(10) // 10% de probabilidad de estar eliminado
+            'tipo_usuario' => $this->faker->randomElement(['Admin', 'Standard'])
         ];
     }
 }

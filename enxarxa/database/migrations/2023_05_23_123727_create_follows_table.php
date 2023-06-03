@@ -20,8 +20,8 @@ class CreateFollowsTable extends Migration
             $table->timestamps();
             $table->softDeletes();
 
-            //$table->foreign('follower_id')->references('id')->on('usuarios')->onDelete('cascade')->onUpdate('cascade');
-            //$table->foreign('following_id')->references('id')->on('usuarios')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreign('follower_id')->references('id')->on('usuarios')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreign('following_id')->references('id')->on('usuarios')->onDelete('cascade')->onUpdate('cascade');
         });
     }
 

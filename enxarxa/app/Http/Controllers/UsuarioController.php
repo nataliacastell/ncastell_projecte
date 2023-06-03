@@ -32,11 +32,14 @@ class UsuarioController extends Controller
         $credentials = $request->only('email', 'password');
 
         if (Auth::attempt($credentials)) {
-            // Autenticación exitosa, redirigir al usuario a una ruta específica
-            return redirect()->route('dashboard');
+            // Autenticación exitosa, redirigir al usuario a sus post
+            return redirect()->route('usuariosSeguidos');
         } else {
             // Autenticación fallida, redirigir al usuario de vuelta al formulario de inicio de sesión con un mensaje de error
-            return redirect()->back()->with('error', 'Credenciales inválidas');
+            //return redirect()->back()->with('error', 'Credenciales inválidas');
+            /** Prueva luego quitar */
+            return redirect()->route('usuariosSeguidosGuest');
+
         }
     }
 
@@ -63,7 +66,7 @@ class UsuarioController extends Controller
         $usuario->save();
 
         // Redirigir a la lista de usuarios con mensaje de éxito
-        return redirect()->route('usuario.index')->with('success', 'Usuario creado exitosamente.');
+        return redirect()->route('')->with('success', 'Usuario creado exitosamente.');
     }
 
     public function read($id)

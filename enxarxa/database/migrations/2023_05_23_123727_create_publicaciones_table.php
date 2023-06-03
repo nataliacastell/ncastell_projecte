@@ -22,7 +22,7 @@ class CreatePublicacionesTable extends Migration
             $table->timestamps();
             $table->softDeletes();
 
-            //$table->foreign('usuario_id')->references('id')->on('usuarios')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreign('usuario_id')->references('id')->on('usuarios')->onDelete('cascade')->onUpdate('cascade');
         });
     }
 

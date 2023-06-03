@@ -9,13 +9,13 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Publicacion extends Model
 {
     use HasFactory, SoftDeletes;
+    protected $table = 'publicaciones';
 
     protected $fillable = [
         'usuario_id',
         'texto',
         'imagen',
-        'likes',
-        'eliminado'
+        'likes'
     ];
 
     protected $dates = ['deleted_at'];
