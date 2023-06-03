@@ -40,18 +40,6 @@ class PublicacionController extends Controller
         return redirect()->route('usuario.publicaciones', ['usuario_id' => Auth::user()->id])->with('success', 'Publicación creada exitosamente.');
     }
 
-    public function read($id)
-    {
-        // Obtener la información de la publicación a través del objeto
-        $publicacion = $this->publicacion;
-
-        // Mostrar la información de la publicación o redirigir a una página de error si no se encuentra la publicación
-        if ($publicacion) {
-            return view('publicacion.read', ['publicacion' => $publicacion]);
-        } else {
-            //return redirect()->route('error')->with('error', 'La publicación no existe.');
-        }
-    }
 
     // App\Http\Controllers\PublicacionController.php
 
@@ -68,11 +56,11 @@ class PublicacionController extends Controller
     public function delete($id)
     {
         // Comprobar si el usuario actual es el autor de la publicación o un usuario admin
-        if (!$this->isAuthor() && Auth::user()->tipo !== 'admin') {
+        if (!$this->isAuthor() && Auth::user()->tipo == 'admin') {
             return redirect()->route('inicio')->with('error', 'No tienes permiso para eliminar esta publicación.');
         }
 
-        // Resto del código de la función...
+
     }
 
 
