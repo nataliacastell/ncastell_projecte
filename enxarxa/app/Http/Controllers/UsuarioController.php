@@ -12,35 +12,51 @@ use Illuminate\Support\Facades\File;
 class UsuarioController extends Controller
 {
     private $usuario;
-
     public function __construct()
     {
-        $this->middleware(function ($request, $next) {
-            $this->usuario = Auth::user();
-            return $next($request);
-        });
-
-        $this->middleware('auth'); // Agregar el middleware auth para asegurarse de que el usuario esté autenticado
-        $this->middleware('verified'); // Agregar el middleware verified para verificar que el usuario haya verificado su correo electrónico
-        $this->middleware('throttle:6,1')->except('login'); // Agregar el middleware throttle para limitar el número de intentos de inicio de sesión
-        $this->middleware('guest')->except('logout'); // Agregar el middleware guest para asegurarse de que el usuario no esté autenticado
-        $this->middleware('auth')->only(['logout', 'index', 'create', 'read', 'update', 'delete', 'ban', 'isAdmin', 'isVerified', 'isBanned', 'isSuperAdmin', 'isModerator', 'isUser']); // Agregar el middleware auth para asegurarse de que el usuario esté autenticado
+        $this->usuario = new Usuario();
+        $this->usuario->id = '';
+        $this->usuario->nombre = '';
+        $this->usuario->correo_electronico = '';
+        $this->usuario->contrasena = '';
+        $this->usuario->tipo_usuario = '';
     }
 
+    public function showLoginForm()
+    {
+        $errors = session('errors') ? session('errors')->getBag('default') : null;
+        return view('layout.login');
+    }
     public function login(Request $request)
     {
-        $credentials = $request->only('email', 'password');
+        $request->validate([
+            'correo_electronico' => 'required|email',
+            'contrasena' => 'required',
+        ]);
 
-        if (Auth::attempt($credentials)) {
-            // Autenticación exitosa, redirigir al usuario a sus post
-            return redirect()->route('usuariosSeguidos');
+        $correoElectronico = $request->input('correo_electronico');
+        $contrasena = $request->input('contrasena');
+
+        // Verificar las credenciales del usuario manualmente
+        $usuario = Usuario::where('correo_electronico', $correoElectronico)->first();
+
+        if ($usuario && Hash::check($contrasena, $usuario->contrasena)) {
+            // Credenciales válidas, iniciar sesión manualmente
+            session(['usuario_id' => $usuario->id]);
+
+            return redirect()->route('usuarios.lista');
         } else {
-            // Autenticación fallida, redirigir al usuario de vuelta al formulario de inicio de sesión con un mensaje de error
-            //return redirect()->back()->with('error', 'Credenciales inválidas');
-            /** Prueva luego quitar */
-            return redirect()->route('usuariosSeguidosGuest');
-
+            // Redirigir a la página de inicio de sesión con los errores de validación
+            return redirect()->route('login')->withErrors(['error' => 'Correo electrónico o contraseña incorrectos.']);
         }
+    }
+
+
+
+    public function logout()
+    {
+        Auth::logout();
+        return redirect()->route('login');
     }
 
     public function isAdmin()
@@ -164,8 +180,8 @@ class UsuarioController extends Controller
         $usuarios = Usuario::all();
 
         // Mostrar la lista de usuarios
-        return view('usuarios.lista', compact('usuarios'));
-    }
+        return view('layout.usuarios.lista', compact('usuarios'));
+     }
 
 
 
